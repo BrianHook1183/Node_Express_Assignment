@@ -22,7 +22,12 @@ app.get("/zoos/all", (req, res, next) => {
 
 app.get("/zoos/:zip", validateZip, (req, res, next) => {
   const zip = req.params.zip;
-  res.send(`zoos/${zip}`);
+  const zooResponse = getZoos(zip).join("; ");
+  res.send(
+    zooResponse ?
+    `${zip} zoos: ${zooResponse}` :
+    `${zip} has no zoos.`
+  );
 });
 
 //* Error Handling
