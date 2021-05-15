@@ -17,7 +17,13 @@ app.get("/check/:zip", validateZip, (req, res, next) => {
 });
 
 app.get("/zoos/all", (req, res, next) => {
-  res.send("zoos/all");
+  const admin = req.query.admin;
+  if (admin === "true") {
+    const zooResponse = getZoos().join("; ");
+    res.send(`All zoos: ${zooResponse}`);
+  } else {
+    next("You do not have access to that route.");
+  }
 });
 
 app.get("/zoos/:zip", validateZip, (req, res, next) => {
@@ -39,7 +45,6 @@ app.use((req, res, next) => {
 
 // Error Handler
 app.use((err, req, res, next) => {
-  console.error(err);
   res.send(err);
 });
 
