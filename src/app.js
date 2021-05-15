@@ -20,6 +20,19 @@ app.get("/zoos/:zip", validateZip, (req, res, next) => {
   res.send(`zoos/${zip}`);
 });
 
+//* Error Handling: ROUTE NOT FOUND:
+
+app.use((req, res, next) => {
+  res.send(`That route could not be found!`);
+});
+
+//* Error Handler
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.send(err);
+});
+
 app.use(morgan("dev"));
 
 module.exports = app;
